@@ -1,2 +1,2 @@
 # Library--SpringBoot
-Projeto desenvolvido utilizadno Spring Framework
+Projeto em desenvolvimento utilizadno Spring Framework.
