@@ -1,2 +1,2 @@
 # Library--SpringBoot
-Projeto em desenvolvimento utilizadno Spring Framework.
+REST API em desenvolvimento utilizando Spring Framework.
