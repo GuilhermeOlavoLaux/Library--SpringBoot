@@ -3,21 +3,23 @@ package com.br.libraryproject.domain;
 
 
 public class Book {
-    public Integer id;
+    public Long id;
     public String name;
+    public String author;
     public String genre;
 
-    public Book(Integer id, String name, String genre) {
+    public Book(Long id, String name, String author, String genre) {
         this.id = id;
+        this.author = author;
         this.name = name;
         this.genre = genre;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

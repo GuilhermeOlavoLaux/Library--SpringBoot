@@ -2,10 +2,10 @@ package com.br.libraryproject.controller;
 
 
 import com.br.libraryproject.domain.Book;
+import com.br.libraryproject.service.LibraryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,6 +13,8 @@ import java.util.List;
 @RequestMapping(path = "library")
 @RequiredArgsConstructor
 public class LibraryController {
+    private final LibraryService libraryService;
+
 
     @GetMapping
     public String initial(){
@@ -22,8 +24,17 @@ public class LibraryController {
 
     @GetMapping(path = "list")
     public List<Book> list(){
-        return List.of(new Book(1,"Harry Potter","Fantasy"));
+        return libraryService.listAll();
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Book> findById(@PathVariable long id){
+        return ResponseEntity.ok(libraryService.findById(id));
+    }
+
+    @GetMapping(path = "/find")
+    public ResponseEntity<Book> findByName(@RequestParam String name){
+        return ResponseEntity.ok(libraryService.findByName(name));
+    }
 
 }
