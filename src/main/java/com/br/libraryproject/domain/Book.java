@@ -1,7 +1,6 @@
 package com.br.libraryproject.domain;
 
 
-
 public class Book {
     public Long id;
     public String name;
@@ -13,6 +12,14 @@ public class Book {
         this.author = author;
         this.name = name;
         this.genre = genre;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Long getId() {

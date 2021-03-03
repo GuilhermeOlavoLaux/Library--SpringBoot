@@ -27,14 +27,25 @@ public class LibraryController {
         return libraryService.listAll();
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Book> findById(@PathVariable long id){
+    @GetMapping(path = "/{id}") //http://localhost:8080/library/id
+    public ResponseEntity<List<Book>> findById(@PathVariable long id){
         return ResponseEntity.ok(libraryService.findById(id));
     }
 
-    @GetMapping(path = "/find")
-    public ResponseEntity<Book> findByName(@RequestParam String name){
+    @GetMapping(path = "/findname") //http://localhost:8080/library/findname?name="book name"
+    public ResponseEntity<List<Book>> findByName(@RequestParam String name){
         return ResponseEntity.ok(libraryService.findByName(name));
+    }
+
+
+    @GetMapping(path = "/findgenre") //http://localhost:8080/library/findgenre?genre="book genre"
+    public ResponseEntity<List<Book>> findByGenre(@RequestParam String genre){
+        return ResponseEntity.ok(libraryService.findByGenre(genre));
+    }
+
+    @GetMapping(path = "/findauthor") //http://localhost:8080/library/findauthor?author="book name"
+    public ResponseEntity<List<Book>> findByAuthor(@RequestParam String author){
+        return ResponseEntity.ok(libraryService.findByAuthor(author));
     }
 
 }
