@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,12 +25,10 @@ public class LibraryService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book not Found"));
     }
 
-}
-//    public List<Book> findByName(String name) {
-//        return books.stream()
-//                .filter(book -> book.getName().equals(name)).collect(Collectors.toList());
-//    }
-//
+    public List<Book> findByName(String name) {
+        return libraryRepository.findByName(name);
+    }
+
 //    public List<Book> findByGenre(String genre){
 //        return books.stream()
 //                .filter(book -> book.getGenre().equals(genre)).collect(Collectors.toList());
@@ -42,6 +38,6 @@ public class LibraryService {
 //                .filter(book -> book.getAuthor().equals(author)).collect(Collectors.toList());
 //    }
 //
-//
-//
-//}
+
+
+}

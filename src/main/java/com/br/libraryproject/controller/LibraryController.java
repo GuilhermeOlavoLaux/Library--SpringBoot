@@ -32,14 +32,14 @@ public class LibraryController {
     @GetMapping(path = "/{id}") //http://localhost:8080/library/id
     public ResponseEntity<Book> findById(@PathVariable long id){
         return ResponseEntity.ok(libraryService.findById(id));
+    }
+
+
+    @GetMapping(path = "/findname") //http://localhost:8080/library/findname?name="book name"
+    public ResponseEntity<List<Book>> findByName(@RequestParam String name){
+        return ResponseEntity.ok(libraryService.findByName(name));
     }}
 
-//
-//    @GetMapping(path = "/findname") //http://localhost:8080/library/findname?name="book name"
-//    public ResponseEntity<List<Book>> findByName(@RequestParam String name){
-//        return ResponseEntity.ok(libraryService.findByName(name));
-//    }
-//
 //
 //    @GetMapping(path = "/findgenre") //http://localhost:8080/library/findgenre?genre="book genre"
 //    public ResponseEntity<List<Book>> findByGenre(@RequestParam String genre){
