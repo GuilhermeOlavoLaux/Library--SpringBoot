@@ -29,15 +29,12 @@ public class LibraryService {
         return libraryRepository.findByName(name);
     }
 
-//    public List<Book> findByGenre(String genre){
-//        return books.stream()
-//                .filter(book -> book.getGenre().equals(genre)).collect(Collectors.toList());
-//    }
-//    public List<Book> findByAuthor(String author){
-//        return books.stream()
-//                .filter(book -> book.getAuthor().equals(author)).collect(Collectors.toList());
-//    }
-//
+    public List<Book> findByGenre(String genre){
+        return libraryRepository.findByGenre(genre);
+    }
 
+    public List<Book> findByAuthor(String author){
+        return libraryRepository.findByAuthor(author);
+    }
 
 }
