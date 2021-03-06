@@ -30,7 +30,7 @@ public class LibraryController {
     }
 
     @GetMapping(path = "/{id}") //http://localhost:8080/library/id
-    public ResponseEntity<Book> findById(@PathVariable long id){
+    public ResponseEntity<List<Book>> findById(@PathVariable long id){
         return ResponseEntity.ok(libraryService.findById(id));
     }
 
@@ -45,8 +45,17 @@ public class LibraryController {
         return ResponseEntity.ok(libraryService.findByGenre(genre));
     }
 
-    @GetMapping(path = "/findauthor") //http://localhost:8080/library/findauthor?author="book name"
+    @GetMapping(path = "/findauthor") //http://localhost:8080/library/findauthor?author="author name"
     public ResponseEntity<List<Book>> findByAuthor(@RequestParam String author){
         return ResponseEntity.ok(libraryService.findByAuthor(author));
 }
+    @GetMapping(path = "/findgenreauthor")
+    public ResponseEntity<List<Book>> findByGenreAndAuthor(@RequestParam String genre, String author){
+        return ResponseEntity.ok(libraryService.findByGenreAndAuthor(genre, author));
+    }
+
+    @GetMapping(path = "/findnameauthor")
+    public ResponseEntity<List<Book>> findByNameAndAuthor(@RequestParam String name, String author){
+        return ResponseEntity.ok(libraryService.findByNameAndAuthor(name, author));
+    }
 }

@@ -3,9 +3,7 @@ package com.br.libraryproject.service;
 import com.br.libraryproject.domain.Book;
 import com.br.libraryproject.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,9 +18,8 @@ public class LibraryService {
         return libraryRepository.findAll();
     }
 
-    public Book findById(long id) {
-        return libraryRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book not Found"));
+    public List<Book> findById(long id) {
+        return libraryRepository.findBookById(id);
     }
 
     public List<Book> findByName(String name) {
@@ -36,5 +33,10 @@ public class LibraryService {
     public List<Book> findByAuthor(String author){
         return libraryRepository.findByAuthor(author);
     }
-
+    public List<Book>findByGenreAndAuthor(String genre, String author){
+        return libraryRepository.findByGenreAndAuthor(genre,author);
+    }
+    public List<Book>findByNameAndAuthor(String name, String author){
+        return libraryRepository.findByNameAndAuthor(name,author);
+    }
 }
