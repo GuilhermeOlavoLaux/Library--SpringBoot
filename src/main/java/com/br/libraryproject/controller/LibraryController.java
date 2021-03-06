@@ -2,9 +2,11 @@ package com.br.libraryproject.controller;
 
 
 import com.br.libraryproject.domain.Book;
+import com.br.libraryproject.dtoRequests.BookPostRequestBody;
 import com.br.libraryproject.service.LibraryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,4 +60,16 @@ public class LibraryController {
     public ResponseEntity<List<Book>> findByNameAndAuthor(@RequestParam String name, String author){
         return ResponseEntity.ok(libraryService.findByNameAndAuthor(name, author));
     }
+
+    @PostMapping(path = "/save")
+    public ResponseEntity<Book> save(@RequestBody BookPostRequestBody book){
+        return new ResponseEntity<>(libraryService.save(book), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<Book> delete(@PathVariable long id){
+        libraryService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }
