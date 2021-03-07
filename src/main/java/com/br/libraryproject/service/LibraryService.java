@@ -2,13 +2,13 @@ package com.br.libraryproject.service;
 
 import com.br.libraryproject.domain.Book;
 import com.br.libraryproject.dtoRequests.BookPostRequestBody;
+import com.br.libraryproject.dtoRequests.BookPutRequestBody;
 import com.br.libraryproject.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +20,13 @@ public class LibraryService {
         return libraryRepository.findAll();
     }
 
-    public List<Book> findById(long id) {
+    public List<Book> findBookById(long id) {
         return libraryRepository.findBookById(id);
     }
-    public Book findObjectById(long id) {
-        return libraryRepository.findObjectById(id);
+
+    public Book findObjectIdOrThrowBadRequestException(long id) {
+        return libraryRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not Found"));
     }
 
     public List<Book> findByName(String name) {
@@ -46,6 +48,7 @@ public class LibraryService {
     public List<Book>findByNameAndAuthor(String name, String author){
         return libraryRepository.findByNameAndAuthor(name,author);
     }
+
     public  Book save(BookPostRequestBody bookPostRequestBody) {
         return libraryRepository.save(Book.builder()
                 .name(bookPostRequestBody.getName())
@@ -53,8 +56,23 @@ public class LibraryService {
                 .author(bookPostRequestBody.getAuthor())
                 .build());
     }
+
+
+    public void replace(BookPutRequestBody bookPutRequestBody) {
+        Book savedAnime = findObjectIdOrThrowBadRequestException(bookPutRequestBody.getId());
+        Book anime = Book.builder()
+                .id(savedAnime.getId())
+                .name(bookPutRequestBody.getName())
+                .author(bookPutRequestBody.getAuthor())
+                .genre(bookPutRequestBody.getGenre())
+                .build();
+
+        libraryRepository.save(anime);
+    }
+
+
     public void delete(long id) {
-        libraryRepository.delete(findObjectById(id));
+        libraryRepository.delete(findObjectIdOrThrowBadRequestException(id));
     }
 
 }
