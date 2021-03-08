@@ -20,7 +20,11 @@ import java.util.List;
 public class LibraryController {
     private final LibraryService libraryService;
 
+    @GetMapping
+    public String Initial(){
 
+        return "Developed API whit Spring Boot";
+    }
 
 
     @GetMapping(path = "list")
@@ -33,28 +37,33 @@ public class LibraryController {
         return ResponseEntity.ok(libraryService.findBookById(id));
     }
 
+    @GetMapping(path = "/object/{id}")
+    public ResponseEntity<Book> findBookObjectByIdOrThrowBadRequestException(@PathVariable long id){
+        return ResponseEntity.ok(libraryService.findBookObjectByIdOrThrowBadRequestException(id));
+    }
 
-    @GetMapping(path = "/findname")
+
+    @GetMapping(path = "/find")
     public ResponseEntity<List<Book>> findByName(@RequestParam String name){
         return ResponseEntity.ok(libraryService.findByName(name));
     }
 
-    @GetMapping(path = "/findgenre")
+    @GetMapping(path = "/find/genre")
     public ResponseEntity<List<Book>> findByGenre(@RequestParam String genre){
         return ResponseEntity.ok(libraryService.findByGenre(genre));
     }
 
-    @GetMapping(path = "/findauthor")
+    @GetMapping(path = "/find/author")
     public ResponseEntity<List<Book>> findByAuthor(@RequestParam String author){
         return ResponseEntity.ok(libraryService.findByAuthor(author));
 }
 
-    @GetMapping(path = "/findgenreauthor")
+    @GetMapping(path = "/find/genre/author")
     public ResponseEntity<List<Book>> findByGenreAndAuthor(@RequestParam String genre, String author){
         return ResponseEntity.ok(libraryService.findByGenreAndAuthor(genre, author));
     }
 
-    @GetMapping(path = "/findnameauthor")
+    @GetMapping(path = "/find/name/author")
     public ResponseEntity<List<Book>> findByNameAndAuthor(@RequestParam String name, String author){
         return ResponseEntity.ok(libraryService.findByNameAndAuthor(name, author));
     }
@@ -64,12 +73,11 @@ public class LibraryController {
         return new ResponseEntity<>(libraryService.save(bookPostRequestBody), HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/replace")
+    @PutMapping
     public ResponseEntity<Void> replace(@RequestBody BookPutRequestBody bookPutRequestBody){
         libraryService.replace(bookPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id){

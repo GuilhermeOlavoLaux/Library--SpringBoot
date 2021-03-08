@@ -3,11 +3,12 @@ package com.br.libraryproject.service;
 import com.br.libraryproject.domain.Book;
 import com.br.libraryproject.dtoRequests.BookPostRequestBody;
 import com.br.libraryproject.dtoRequests.BookPutRequestBody;
+import com.br.libraryproject.exception.BadRequestException;
 import com.br.libraryproject.repository.LibraryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -24,9 +25,9 @@ public class LibraryService {
         return libraryRepository.findBookById(id);
     }
 
-    public Book findObjectIdOrThrowBadRequestException(long id) {
+    public Book findBookObjectByIdOrThrowBadRequestException(long id) {
         return libraryRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not Found"));
+                .orElseThrow(() -> new BadRequestException("Book not Found"));
     }
 
     public List<Book> findByName(String name) {
@@ -49,6 +50,7 @@ public class LibraryService {
         return libraryRepository.findByNameAndAuthor(name,author);
     }
 
+    @Transactional
     public  Book save(BookPostRequestBody bookPostRequestBody) {
         return libraryRepository.save(Book.builder()
                 .name(bookPostRequestBody.getName())
@@ -59,7 +61,7 @@ public class LibraryService {
 
 
     public void replace(BookPutRequestBody bookPutRequestBody) {
-        Book savedAnime = findObjectIdOrThrowBadRequestException(bookPutRequestBody.getId());
+        Book savedAnime = findBookObjectByIdOrThrowBadRequestException(bookPutRequestBody.getId());
         Book anime = Book.builder()
                 .id(savedAnime.getId())
                 .name(bookPutRequestBody.getName())
@@ -72,7 +74,7 @@ public class LibraryService {
 
 
     public void delete(long id) {
-        libraryRepository.delete(findObjectIdOrThrowBadRequestException(id));
+        libraryRepository.delete(findBookObjectByIdOrThrowBadRequestException(id));
     }
 
 }
