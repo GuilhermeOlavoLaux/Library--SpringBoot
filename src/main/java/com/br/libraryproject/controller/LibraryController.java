@@ -4,13 +4,17 @@ package com.br.libraryproject.controller;
 import com.br.libraryproject.domain.Book;
 import com.br.libraryproject.dtoRequests.BookPostRequestBody;
 import com.br.libraryproject.dtoRequests.BookPutRequestBody;
+import com.br.libraryproject.repository.LibraryRepository;
 import com.br.libraryproject.service.LibraryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,17 +23,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LibraryController {
     private final LibraryService libraryService;
+    private final LibraryRepository libraryRepository;
 
     @GetMapping
     public String Initial(){
-
         return "Developed API whit Spring Boot";
     }
-
 
     @GetMapping(path = "list")
     public List<Book> list(){
         return libraryService.listAll();
+    }
+
+    @GetMapping(path = "list/pageable")
+    public Page<Book> list(Pageable pageable){
+        return libraryRepository.findAll(pageable);
     }
 
     @GetMapping(path = "/{id}")
@@ -41,7 +49,6 @@ public class LibraryController {
     public ResponseEntity<Book> findBookObjectByIdOrThrowBadRequestException(@PathVariable long id){
         return ResponseEntity.ok(libraryService.findBookObjectByIdOrThrowBadRequestException(id));
     }
-
 
     @GetMapping(path = "/find")
     public ResponseEntity<List<Book>> findByName(@RequestParam String name){
@@ -69,12 +76,12 @@ public class LibraryController {
     }
 
     @PostMapping(path = "/save")
-    public ResponseEntity<Book> save(@RequestBody BookPostRequestBody bookPostRequestBody){
+    public ResponseEntity<Book> save(@RequestBody @Valid BookPostRequestBody bookPostRequestBody){
         return new ResponseEntity<>(libraryService.save(bookPostRequestBody), HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody BookPutRequestBody bookPutRequestBody){
+    @PutMapping(path = "/replace")
+    public ResponseEntity<Void> replace(@RequestBody @Valid BookPutRequestBody bookPutRequestBody){
         libraryService.replace(bookPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
