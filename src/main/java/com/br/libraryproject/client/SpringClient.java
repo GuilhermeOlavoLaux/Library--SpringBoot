@@ -17,19 +17,19 @@ public class SpringClient {
         log.info(entity);
 
 
-
+        //Return a book object
         Book object = new RestTemplate().getForObject("http://localhost:8080/library/object/{id}",
                 Book.class, 1);
         log.info(object);
 
 
-
+        //Return one Array of books
         Book[] books = new RestTemplate().getForObject("http://localhost:8080/library/list",
                 Book[].class);
         log.info(Arrays.toString(books));
 
 
-
+        //Return a list of books
         ResponseEntity<List<Book>> exchange = new RestTemplate()
                 .exchange("http://localhost:8080/library/list", HttpMethod.GET,
                         null, new ParameterizedTypeReference<List<Book>>() {});
@@ -38,13 +38,13 @@ public class SpringClient {
 
 
         Book book2 = Book.builder().name("O mito da caverna").author("Platão").genre("Philosophy").build();
-        // ID é gerado automaticamente
+        // ID automatically generated
         ResponseEntity<Book> savedBook2 = new RestTemplate().exchange("http://localhost:8080/library/save",
                 HttpMethod.POST, new HttpEntity<>(book2), Book.class);
         log.info("saved book2 {}", savedBook2);
 
 
-
+        //Save a book
         Book book3 = Book.builder().name("Harry Potter").author("J.K Rowling").genre("Fantasy").build();
         ResponseEntity<Book> book3Saved = new RestTemplate().exchange("http://localhost:8080/library/save",
                 HttpMethod.POST,
@@ -53,7 +53,7 @@ public class SpringClient {
         log.info("saved book {}", book3Saved);
 
 
-
+        //Update a book
         Book bookToBeUpdated = book3Saved.getBody();
         bookToBeUpdated.setName("Harry Potter Updated");
         ResponseEntity<Void> bookUpdated = new RestTemplate().exchange("http://localhost:8080/library/replace",
@@ -63,7 +63,7 @@ public class SpringClient {
         log.info(bookUpdated);
 
 
-
+        //Delete a book
         ResponseEntity<Void> bookDeleted = new RestTemplate().exchange("http://localhost:8080/library/delete/{id}",
                 HttpMethod.DELETE,
                 null,
