@@ -1,6 +1,7 @@
 package com.br.libraryproject.controller;
 
 
+import com.br.libraryproject.client.SpringClient;
 import com.br.libraryproject.domain.Book;
 import com.br.libraryproject.dtoRequests.BookPostRequestBody;
 import com.br.libraryproject.dtoRequests.BookPutRequestBody;
@@ -31,7 +32,7 @@ public class LibraryController {
     }
 
     @GetMapping(path = "list")
-    public List<Book> list(){
+    public List<Book> listAllNonPageable(){
         return libraryService.listAll();
     }
 
